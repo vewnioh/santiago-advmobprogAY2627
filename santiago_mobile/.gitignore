@@ -44,10 +44,3 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Keep only the requested root items visible
-*
-!/.gitignore
-!read.md
-!README.md
-!santiago_mobile/
-!santiago_mobile/**
