@@ -1,0 +1,6 @@
+# Keep only the requested root items visible
+*
+!/.gitignore
+!read.md
+!santiago_mobile/
+!santiago_mobile/**
