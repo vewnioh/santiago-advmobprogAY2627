@@ -14,7 +14,7 @@ import '../services/product_service.dart';
 import '../widgets/custom_text.dart';
 
 // Enhancement 2: Import ProductDetailScreen for product card tap navigation
-import 'product_detail_screen.dart';
+import 'detail_screen.dart';
 
 // Primary screen component displaying product catalog list and interactive search bar
 class ProductScreen extends StatefulWidget {

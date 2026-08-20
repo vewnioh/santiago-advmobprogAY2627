@@ -19,6 +19,12 @@ import 'screens/home_screen.dart';
 // Import SettingsScreen component widget
 import 'screens/settings_screen.dart';
 
+// Enhancement 1: Import SplashScreen, the new initial route implementing persistent authentication
+import 'screens/splash_screen.dart';
+
+// Enhancement 2: Import SigninScreen, shown when no session is saved
+import 'screens/signin_screen.dart';
+
 // Import ThemeProvider state manager class
 import 'providers/theme_provider.dart';
 
@@ -66,9 +72,12 @@ class SantiagoMobile extends StatelessWidget {
             darkTheme: themeModel.darkTheme,
             themeMode: themeModel.isDark ? ThemeMode.dark : ThemeMode.light,
             title: 'E-Commerce App',
-            initialRoute: '/home',
+            // Enhancement 1: App now boots into SplashScreen, which decides between /home and /signin
+            initialRoute: '/splash',
             // Table of named application navigation routes mapped to screen widgets
             routes: {
+              '/splash': (context) => const SplashScreen(),
+              '/signin': (context) => const SigninScreen(),
               '/home': (context) => const HomeScreen(),
               '/settings': (context) => const SettingsScreen(),
             },

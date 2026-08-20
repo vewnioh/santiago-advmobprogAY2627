@@ -7,14 +7,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 // Import ProductScreen displaying the grid of products
 import 'product_screen.dart';
 
-// Enhancement 1: Import CartScreen displaying the demo user's cart
+// Enhancement 1: Import CartScreen displaying the logged-in user's cart
 import 'cart_screen.dart';
+
+// Enhancement 3 (Lab 4): Import ProfileScreen rendering the saved user's data
+import 'profile_screen.dart';
 
 // Import CustomText widget for standardized typography formatting
 import '../widgets/custom_text.dart';
 
+// Import UserService to read the logged-in user's name for the AppBar title
+import '../services/user_service.dart';
+
 // Index of the Cart tab within the bottom navigation bar and PageView
 const int _cartTabIndex = 1;
+
+// Index of the Profile tab within the bottom navigation bar and PageView
+const int _profileTabIndex = 2;
 
 // Main container screen holding bottom navigation bar and page view tabs
 class HomeScreen extends StatefulWidget {
@@ -36,6 +45,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Controller regulating PageView page switches programmatically
   final PageController _pageController = PageController();
+
+  // Logged-in user's first name, used as the AppBar title on the Profile tab
+  String _firstName = '';
+
+  // Lifecycle method loading the saved user's first name when widget enters tree
+  @override
+  void initState() {
+    super.initState();
+    _loadFirstName();
+  }
+
+  // Enhancement 3 (Lab 4): Reads the saved session's first name from SharedPreferences
+  Future<void> _loadFirstName() async {
+    final userData = await UserService().getUserData();
+    if (!mounted) return;
+    setState(() {
+      _firstName = userData['firstName'] ?? '';
+    });
+  }
+
+  // Enhancement 1: Clears the saved session and returns to sign-in, removing the whole navigation stack
+  void _handleLoggedOut() {
+    Navigator.of(context).pushNamedAndRemoveUntil('/signin', (route) => false);
+  }
 
   // Builds and returns top AppBar, PageView body, and BottomNavigationBar
   @override
@@ -61,10 +94,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 )
               : CustomText(
                   // Enhancement 2: Chat tab removed from the bottom bar (now a FloatingActionButton), Cart takes its place
+                  // Enhancement 3 (Lab 4): Profile tab shows the logged-in user's first name once loaded
                   text: _selectedIndex == _cartTabIndex
                       ? 'Cart'
-                      : _selectedIndex == 2
-                          ? 'Profile'
+                      : _selectedIndex == _profileTabIndex
+                          ? (_firstName.isNotEmpty ? _firstName : 'Profile')
                           : 'Home',
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w600,
@@ -87,16 +121,11 @@ class _HomeScreenState extends State<HomeScreen> {
               _selectedIndex = page;
             });
           },
-          // Enhancement 1 & 2: List of tab view screens (Shop, Cart, Profile placeholder) - Chat is now a FloatingActionButton instead of a tab
-          children: const [
-            ProductScreen(),
-            CartScreen(),
-            Center(
-              child: CustomText(
-                text: 'Profile Screen Placeholder',
-                fontSize: 16,
-              ),
-            ),
+          // Enhancement 1, 2 & 3: List of tab view screens (Shop, Cart, Profile) - Chat is now a FloatingActionButton instead of a tab
+          children: [
+            const ProductScreen(),
+            const CartScreen(),
+            ProfileScreen(onLoggedOut: _handleLoggedOut),
           ],
         ),
         // Bottom navigation bar displaying navigation icons and handling tab switches

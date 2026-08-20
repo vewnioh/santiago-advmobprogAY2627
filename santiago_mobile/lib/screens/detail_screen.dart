@@ -10,8 +10,8 @@ import '../widgets/custom_text.dart';
 // Enhancement 3: Import CartService to persist the Add to Cart action to the API
 import '../services/cart_service.dart';
 
-// Enhancement 3: Import demoUserId constant used to scope the cart to a single demo user
-import '../constants.dart';
+// Enhancement 3 (Lab 4): Import UserService to scope the cart to the currently logged-in user
+import '../services/user_service.dart';
 
 // Enhancement 2: Detail screen displaying comprehensive product information and image preview
 class ProductDetailScreen extends StatelessWidget {
@@ -216,12 +216,13 @@ class ProductDetailScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 48,
                     child: ElevatedButton.icon(
-                      // Enhancement 3: Calls the add-to-cart API endpoint with this product's id and a default quantity of 1
+                      // Enhancement 3 (Lab 4): Resolves the logged-in user's id from the saved session, then calls the add-to-cart API endpoint
                       onPressed: () async {
                         final messenger = ScaffoldMessenger.of(context);
                         try {
+                          final currentUser = await UserService().getUser();
                           await CartService().addToCart(
-                            userId: demoUserId,
+                            userId: currentUser.id,
                             products: [
                               {'id': product.id, 'quantity': 1},
                             ],

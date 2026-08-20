@@ -1,4 +1,4 @@
-// Enhancement 1 & 3: Cart Screen rendering the demo user's single cart from the API
+// Enhancement 1 & 3: Cart Screen rendering the logged-in user's single cart from the API
 import 'package:flutter/material.dart';
 
 // Import ScreenUtil package for responsive screen dimensions and font scaling
@@ -19,11 +19,11 @@ import '../services/product_service.dart';
 // Import CustomText widget for consistent typography styling
 import '../widgets/custom_text.dart';
 
-// Enhancement 3: Import demoUserId constant used to scope the cart to a single demo user
-import '../constants.dart';
+// Enhancement 3 (Lab 4): Import UserService to scope the cart to the currently logged-in user
+import '../services/user_service.dart';
 
 // Enhancement 1: Import ProductDetailScreen so cart items can navigate to the same detail screen widget
-import 'product_detail_screen.dart';
+import 'detail_screen.dart';
 
 // Primary screen component displaying the demo user's cart and its line items
 class CartScreen extends StatefulWidget {
@@ -37,9 +37,10 @@ class CartScreen extends StatefulWidget {
 
 // State class managing async cart loading, quantity updates, and item navigation
 class _CartScreenState extends State<CartScreen> {
-  // Service instances used to call the cart and product REST API endpoints
+  // Service instances used to call the cart, product, and user REST API endpoints
   final CartService _cartService = CartService();
   final ProductService _productService = ProductService();
+  final UserService _userService = UserService();
 
   // Holds the loaded cart once the initial fetch completes; updated in place afterwards
   // so quantity changes don't have to re-run the FutureBuilder's loading state on every tap
@@ -58,10 +59,11 @@ class _CartScreenState extends State<CartScreen> {
     _loadCart();
   }
 
-  // Enhancement 3: Loads only the cart belonging to demoUserId via GET /carts/user/{userId}
+  // Enhancement 3 (Lab 4): Loads only the cart belonging to the saved, logged-in user via GET /carts/user/{userId}
   Future<void> _loadCart() async {
     try {
-      final Cart? cart = await _cartService.getCartByUserId(demoUserId);
+      final currentUser = await _userService.getUser();
+      final Cart? cart = await _cartService.getCartByUserId(currentUser.id);
       if (!mounted) return;
       setState(() {
         _cart = cart;
