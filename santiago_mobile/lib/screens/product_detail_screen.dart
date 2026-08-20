@@ -7,6 +7,12 @@ import '../models/product.dart';
 // Import CustomText widget for consistent typography styling
 import '../widgets/custom_text.dart';
 
+// Enhancement 3: Import CartService to persist the Add to Cart action to the API
+import '../services/cart_service.dart';
+
+// Enhancement 3: Import demoUserId constant used to scope the cart to a single demo user
+import '../constants.dart';
+
 // Enhancement 2: Detail screen displaying comprehensive product information and image preview
 class ProductDetailScreen extends StatelessWidget {
   // Target product model instance passed into detail screen
@@ -210,13 +216,29 @@ class ProductDetailScreen extends StatelessWidget {
                     width: double.infinity,
                     height: 48,
                     child: ElevatedButton.icon(
-                      onPressed: () {
-                        // Displays confirmation SnackBar message upon tapping button
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('${product.title} added to cart!'),
-                          ),
-                        );
+                      // Enhancement 3: Calls the add-to-cart API endpoint with this product's id and a default quantity of 1
+                      onPressed: () async {
+                        final messenger = ScaffoldMessenger.of(context);
+                        try {
+                          await CartService().addToCart(
+                            userId: demoUserId,
+                            products: [
+                              {'id': product.id, 'quantity': 1},
+                            ],
+                          );
+
+                          // Displays confirmation SnackBar message once the API call succeeds
+                          messenger.showSnackBar(
+                            SnackBar(
+                              content: Text('${product.title} added to cart!'),
+                            ),
+                          );
+                        } catch (e) {
+                          // Displays error SnackBar message if the API call fails
+                          messenger.showSnackBar(
+                            SnackBar(content: Text('Failed to add to cart: $e')),
+                          );
+                        }
                       },
                       icon: const Icon(Icons.shopping_cart),
                       label: const Text(

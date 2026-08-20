@@ -32,4 +32,17 @@ class ProductService {
       throw Exception('Failed to load products');
     }
   }
+
+  // Enhancement 1: Fetches a single full product by id, used when a cart item is tapped
+  // so the existing ProductDetailScreen (which needs the full Product shape) can be reused,
+  // since CartProduct only carries a partial subset of product fields.
+  Future<Product> getProductById(int id) async {
+    final response = await http.get(Uri.parse('$host/products/$id'));
+
+    if (response.statusCode == 200) {
+      return Product.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load product $id');
+    }
+  }
 }

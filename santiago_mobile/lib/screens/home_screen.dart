@@ -7,8 +7,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 // Import ProductScreen displaying the grid of products
 import 'product_screen.dart';
 
+// Enhancement 1: Import CartScreen displaying the demo user's cart
+import 'cart_screen.dart';
+
 // Import CustomText widget for standardized typography formatting
 import '../widgets/custom_text.dart';
+
+// Index of the Cart tab within the bottom navigation bar and PageView
+const int _cartTabIndex = 1;
 
 // Main container screen holding bottom navigation bar and page view tabs
 class HomeScreen extends StatefulWidget {
@@ -54,8 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 )
               : CustomText(
-                  text: _selectedIndex == 1
-                      ? 'Chat'
+                  // Enhancement 2: Chat tab removed from the bottom bar (now a FloatingActionButton), Cart takes its place
+                  text: _selectedIndex == _cartTabIndex
+                      ? 'Cart'
                       : _selectedIndex == 2
                           ? 'Profile'
                           : 'Home',
@@ -80,15 +87,10 @@ class _HomeScreenState extends State<HomeScreen> {
               _selectedIndex = page;
             });
           },
-          // List of tab view screens (Shop, Chat placeholder, Profile placeholder)
+          // Enhancement 1 & 2: List of tab view screens (Shop, Cart, Profile placeholder) - Chat is now a FloatingActionButton instead of a tab
           children: const [
             ProductScreen(),
-            Center(
-              child: CustomText(
-                text: 'Chat Screen Placeholder',
-                fontSize: 16,
-              ),
-            ),
+            CartScreen(),
             Center(
               child: CustomText(
                 text: 'Profile Screen Placeholder',
@@ -101,15 +103,15 @@ class _HomeScreenState extends State<HomeScreen> {
         bottomNavigationBar: BottomNavigationBar(
           showSelectedLabels: false,
           showUnselectedLabels: false,
-          // List of bottom navigation bar items (Shop, Chat, Profile)
+          // Enhancement 1 & 2: List of bottom navigation bar items (Shop, Cart, Profile) - Chat moved out to a FloatingActionButton
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.shop_2),
               label: 'Shop',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              label: 'Chat',
+              icon: Icon(Icons.shopping_cart),
+              label: 'Cart',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
@@ -119,6 +121,20 @@ class _HomeScreenState extends State<HomeScreen> {
           currentIndex: _selectedIndex,
           onTap: _onTappedBar,
         ),
+        // Enhancement 2: Chat FloatingActionButton, hidden while the Cart tab is active
+        floatingActionButton: _selectedIndex == _cartTabIndex
+            ? null
+            : FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const _ChatPlaceholderScreen(),
+                    ),
+                  );
+                },
+                child: const Icon(Icons.chat),
+              ),
       ),
     );
   }
@@ -132,5 +148,31 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Jumps PageView controller directly to the selected tab page
     _pageController.jumpToPage(value);
+  }
+}
+
+// Enhancement 2: Placeholder screen opened by the Chat FloatingActionButton
+class _ChatPlaceholderScreen extends StatelessWidget {
+  // Constructor initializing the private chat placeholder widget
+  const _ChatPlaceholderScreen();
+
+  // Builds and returns a simple screen carrying over the previous Chat tab placeholder text
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const CustomText(
+          text: 'Chat',
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      body: const Center(
+        child: CustomText(
+          text: 'Chat Screen Placeholder',
+          fontSize: 16,
+        ),
+      ),
+    );
   }
 }
