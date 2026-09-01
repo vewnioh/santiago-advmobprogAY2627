@@ -1,9 +1,3 @@
-# Vergel Adrian Santiago
+# Lab Act 1
 
-# INF231
-
-# CTAMOBL Advance Mobile Programming
-
-A new Flutter project that focuses on advanced topics. Covering the mobile to web transaction.
-
-# Lab Activity Instance
+Lab Activity 1 focuses on understanding fundamental state management concepts in Flutter, specifically distinguishing between ephemeral (local) state and app (global) state. Ephemeral state is managed within a single widget using `StatefulWidget` and `setState()` for transient UI updates like toggle switches or form field inputs. In contrast, app state handles data that needs to be shared across multiple screens or throughout the entire lifecycle of the application. By implementing basic reactive UI controls and stateful elements, this activity demonstrates how state changes trigger UI rebuilds in Flutter. Mastering state management ensures that application state remains predictable, organized, and scalable as app complexity grows.
