@@ -1,14 +1,7 @@
-# Vergel Adrian Santiago
+# Lab Act 1
 
-# INF231
+Lab Activity 1 focuses on understanding fundamental state management concepts in Flutter, specifically distinguishing between ephemeral (local) state and app (global) state. Ephemeral state is managed within a single widget using `StatefulWidget` and `setState()` for transient UI updates like toggle switches or form field inputs. In contrast, app state handles data that needs to be shared across multiple screens or throughout the entire lifecycle of the application. By implementing basic reactive UI controls and stateful elements, this activity demonstrates how state changes trigger UI rebuilds in Flutter. Mastering state management ensures that application state remains predictable, organized, and scalable as app complexity grows.
 
-# CTAMOBL Advance Mobile Programming
+# Lab Act 2
 
-A new Flutter project that focuses on advanced topics. Covering the mobile to web transaction.
-
-# Lab Activity Instance
-
-## Lab Activity 2: Discussion
-
-In this activity, the application integrates remote REST API data by passing information across three decoupled layers: `ProductService` executes asynchronous HTTP requests, `Product` models deserialize raw JSON payloads into strongly-typed objects, and UI screens render the data dynamically using `FutureBuilder`. The codebase adheres to the MVVM / Service-Provider design pattern, enforcing a strict separation of concerns by isolating network operations from presentation widgets. Global state management is handled using `ThemeProvider` with `ChangeNotifier`, enabling descendant widgets to reactively rebuild whenever state updates occur across the widget tree. This structured architecture improves code maintainability, type safety, and scalability while ensuring seamless data flow between the backend endpoint and the mobile client interface.
-
+Lab Activity 2 introduces a structured product catalog along with dynamic light and dark mode custom theming. Data models and dedicated service layers were established to handle product information, while custom visual assets such as fonts, images, and SVG graphics were integrated into the app. The UI was expanded with dedicated screens including a Home Screen, Product Screen, Product Detail Screen, and Settings Screen. Reusable widgets like custom text components and a theme provider were implemented to maintain visual consistency across all views. This activity emphasizes modular UI development, responsive component layout, and persistent aesthetic customization.
