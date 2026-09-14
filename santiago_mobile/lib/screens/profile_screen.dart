@@ -339,12 +339,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
                   decoration: BoxDecoration(
-                    color: isFirebase
-                        ? Colors.deepPurple.withValues(alpha: 0.12)
-                        : Colors.blue.withValues(alpha: 0.12),
+                    color: primaryColor.withValues(alpha: 0.12),
                     borderRadius: BorderRadius.circular(20.r),
                     border: Border.all(
-                      color: isFirebase ? Colors.deepPurple : Colors.blue,
+                      color: primaryColor,
                       width: 1,
                     ),
                   ),
@@ -354,7 +352,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Icon(
                         isFirebase ? Icons.local_fire_department : Icons.api,
                         size: 16.sp,
-                        color: isFirebase ? Colors.deepPurple : Colors.blue,
+                        color: primaryColor,
                       ),
                       SizedBox(width: 6.w),
                       CustomText(
@@ -363,7 +361,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             : 'Login Type: DummyJSON API',
                         fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
-                        color: isFirebase ? Colors.deepPurple : Colors.blue,
+                        color: primaryColor,
                       ),
                     ],
                   ),
