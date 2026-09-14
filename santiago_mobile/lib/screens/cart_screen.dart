@@ -244,7 +244,7 @@ class _CartScreenState extends State<CartScreen> {
                               Column(
                                 children: [
                                   IconButton(
-                                    icon: Icon(Icons.add_circle, color: Colors.orange, size: 20.sp),
+                                    icon: Icon(Icons.add_circle, color: Theme.of(context).primaryColor, size: 20.sp),
                                     onPressed: () => _changeQuantity(cart, item, 1),
                                   ),
                                   CustomText(
@@ -318,14 +318,14 @@ class _CartScreenState extends State<CartScreen> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
+                          backgroundColor: Theme.of(context).primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.r),
                           ),
                         ),
                         child: const Text(
                           'Confirm Order',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       ),
                     ),
