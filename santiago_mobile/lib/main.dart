@@ -13,6 +13,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 // Import Provider package for application-wide state management
 import 'package:provider/provider.dart';
 
+// Import Firebase Core package and generated options
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 // Import HomeScreen component widget
 import 'screens/home_screen.dart';
 
@@ -22,8 +26,9 @@ import 'screens/settings_screen.dart';
 // Enhancement 1: Import SplashScreen, the new initial route implementing persistent authentication
 import 'screens/splash_screen.dart';
 
-// Enhancement 2: Import SigninScreen, shown when no session is saved
+// Enhancement 2: Import SigninScreen and SignupScreen for authentication flows
 import 'screens/signin_screen.dart';
+import 'screens/signup_screen.dart';
 
 // Import ThemeProvider state manager class
 import 'providers/theme_provider.dart';
@@ -32,6 +37,11 @@ import 'providers/theme_provider.dart';
 void main() async {
   // Ensures Flutter widget binding engine is initialized before running async tasks
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initializes Firebase with generated DefaultFirebaseOptions
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   // Locks device screen orientation strictly to portrait orientation mode
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
@@ -78,6 +88,7 @@ class SantiagoMobile extends StatelessWidget {
             routes: {
               '/splash': (context) => const SplashScreen(),
               '/signin': (context) => const SigninScreen(),
+              '/signup': (context) => const SignupScreen(),
               '/home': (context) => const HomeScreen(),
               '/settings': (context) => const SettingsScreen(),
             },

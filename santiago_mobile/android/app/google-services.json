@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "781278589671",
+    "project_id": "advmobprog-firebase-f57ef",
+    "storage_bucket": "advmobprog-firebase-f57ef.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781278589671:android:77c27a7be978c410d86842",
+        "android_client_info": {
+          "package_name": "com.example.santiago_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIn1-o_AJk9bfHvhlW4g1r1l9TzYMLUeE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
