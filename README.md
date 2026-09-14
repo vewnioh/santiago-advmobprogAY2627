@@ -16,24 +16,4 @@ Lab Activity 4 introduces user account sign-in, profile management, and smooth s
 
 # Lab Act 5
 
-Lab Activity 5 integrates Google Firebase Authentication into the Flutter application alongside the existing DummyJSON API service, enabling real-time cloud-based user authentication, registration, and profile management.
-
-### Laboratory Discussion
-
-#### 1. Workflow for DummyJSON and Firebase Implementation (From Sign In to Sign Up)
-- **DummyJSON API Workflow**: Authentication relies on an external REST API endpoint (`https://dummyjson.com/auth/login`). Users log in using pre-existing mock usernames and passwords. The API returns a JSON response containing an access token and user attributes, which are cached locally in `SharedPreferences`. Since DummyJSON is a public testing API, registration is limited to client-side data handling without permanent server-side database storage.
-- **Firebase Authentication Workflow**: Authentication utilizes the official `firebase_auth` SDK connected to a dedicated Google Firebase project (`advmobprog-firebase`).
-  - **Sign Up**: Users fill out a comprehensive registration form (`signup_screen.dart`) containing their full name, age, contact number, username, email, and password. The app invokes `FirebaseAuth.instance.createUserWithEmailAndPassword()`, creating a permanent user record in Firebase Cloud Authentication and setting the user's display name.
-  - **Sign In**: Users log in via `signInWithEmailAndPassword()`. Firebase verifies the credentials against the cloud database, manages security tokens, and triggers reactive auth state updates via `authStateChanges()`.
-
-#### 2. Main Idea for the `UserService` Implementation
-The `UserService` class serves as a unified abstraction layer (Service/Facade Pattern) separating raw authentication mechanisms from the UI widgets. Its primary objectives include:
-- Encapsulating both HTTP REST API calls (DummyJSON) and native SDK calls (Firebase Auth) behind a clean, reusable Dart interface.
-- Centralizing local session persistence (`SharedPreferences`) for user details, access tokens, and the active `loginType` (`firebase` vs `dummyjson`).
-- Providing secure account management utilities including username updates (`updateUsername`), password changes (`resetPasswordFromCurrentPassword`), account deletion (`deleteAccount`), and session termination (`signOut`).
-
-#### 3. Benefits of the Firebase Implementation on the Current Flutter Application
-- **Real-Time Cloud Persistence**: User accounts created in the app are permanently stored in Google's secure cloud database, allowing users to sign in from any device.
-- **Built-in Security & Validation**: Firebase automatically handles password hashing, email format verification, security rules, and token refresh handling without custom backend code.
-- **Reactive State Management**: `authStateChanges()` provides real-time streams that notify the application immediately when a user logs in, logs out, or modifies their account state.
-- **Self-Service Account Controls**: Enables users to update their profile username, change their password, or permanently delete their account with automatic re-authentication safeguards.
+Lab Activity 5 expands the application by adding online user registration and account management features. Users can now create a new account, sign in using their email or existing credentials, and view their active profile details. The app allows users to update their display username, change their password, or safely log out while keeping their account information saved. Overall, this activity connects online account services with user settings to deliver a complete, secure, and reliable user experience.
