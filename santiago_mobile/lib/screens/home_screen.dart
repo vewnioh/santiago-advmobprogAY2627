@@ -13,6 +13,9 @@ import 'cart_screen.dart';
 // Enhancement 3 (Lab 4): Import ProfileScreen rendering the saved user's data
 import 'profile_screen.dart';
 
+// Lab 6: Import ChatScreen, the Firestore chat list opened by the FloatingActionButton
+import 'chat_screen.dart';
+
 // Import CustomText widget for standardized typography formatting
 import '../widgets/custom_text.dart';
 
@@ -151,6 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onTap: _onTappedBar,
         ),
         // Enhancement 2: Chat FloatingActionButton, hidden while the Cart tab is active
+        // Lab 6: Redirects to the Firestore-backed Chat List UI
         floatingActionButton: _selectedIndex == _cartTabIndex
             ? null
             : FloatingActionButton(
@@ -158,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const _ChatPlaceholderScreen(),
+                      builder: (context) => const ChatScreen(),
                     ),
                   );
                 },
@@ -177,31 +181,5 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Jumps PageView controller directly to the selected tab page
     _pageController.jumpToPage(value);
-  }
-}
-
-// Enhancement 2: Placeholder screen opened by the Chat FloatingActionButton
-class _ChatPlaceholderScreen extends StatelessWidget {
-  // Constructor initializing the private chat placeholder widget
-  const _ChatPlaceholderScreen();
-
-  // Builds and returns a simple screen carrying over the previous Chat tab placeholder text
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const CustomText(
-          text: 'Chat',
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      body: const Center(
-        child: CustomText(
-          text: 'Chat Screen Placeholder',
-          fontSize: 16,
-        ),
-      ),
-    );
   }
 }

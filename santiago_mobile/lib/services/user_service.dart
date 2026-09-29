@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../constants.dart';
 import '../models/user.dart' as app_user;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 ValueNotifier<UserService> userService = ValueNotifier(UserService());
@@ -79,6 +80,37 @@ class UserService {
     await prefs.setString('accessToken', user.uid);
     await prefs.setString('token', user.uid);
     await prefs.setString('loginType', 'firebase');
+
+    // Lab 6: Mirror the profile into Firestore so other users can find this account in the chat list
+    // A Firestore failure (e.g. rules not published yet) must not block signing in
+    try {
+      await saveUserToFirestore(
+        user: user,
+        firstName: firstName,
+        lastName: lastName,
+        username: extraDetails?['username'],
+      );
+    } catch (e) {
+      debugPrint('Failed to save user to Firestore: $e');
+    }
+  }
+
+  /// **Lab 6: Upsert the `Users/{uid}` document used by the chat list**
+  /// Merge keeps fields written at sign up (e.g. username) when signing in later
+  Future<void> saveUserToFirestore({
+    required User user,
+    required String firstName,
+    required String lastName,
+    String? username,
+  }) async {
+    await FirebaseFirestore.instance.collection('Users').doc(user.uid).set({
+      'uid': user.uid,
+      'email': user.email ?? '',
+      if (firstName.isNotEmpty) 'firstName': firstName,
+      if (lastName.isNotEmpty) 'lastName': lastName,
+      if (username != null && username.isNotEmpty) 'username': username,
+      'lastSignIn': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
   }
 
   /// Retrieve user data from SharedPreferences
@@ -86,6 +118,8 @@ class UserService {
     final prefs = await SharedPreferences.getInstance();
 
     return {
+      // Lab 6: Firebase Auth UID, used to build chat room IDs
+      'uid': currentUser?.uid ?? '',
       'id': prefs.getInt('id') ?? 0,
       'username': prefs.getString('username') ?? (currentUser?.displayName ?? ''),
       'email': prefs.getString('email') ?? (currentUser?.email ?? ''),
