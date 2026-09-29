@@ -17,3 +17,8 @@ Lab Activity 4 introduces user account sign-in, profile management, and smooth s
 # Lab Act 5
 
 Lab Activity 5 expands the application by adding online user registration and account management features. Users can now create a new account, sign in using their email or existing credentials, and view their active profile details. The app allows users to update their display username, change their password, or safely log out while keeping their account information saved. Overall, this activity connects online account services with user settings to deliver a complete, secure, and reliable user experience.
+
+# Lab Act 6
+
+Lab Activity 6 adds real-time chat so users of the app can message each other directly. A chat list screen shows all registered users, with a search bar for quickly finding someone to talk to. Opening a conversation brings up a chat room where messages are sent and received instantly and stored online, so the full history is kept between sessions. Each message shows its time along with a status indicator for sending, delivered, or seen, and messages are automatically marked as seen once the other person opens the chat. Overall, this activity turns the app into a connected experience where users can communicate with each other in real time.
+
